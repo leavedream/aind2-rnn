@@ -13,10 +13,13 @@ def window_transform_series(series,window_size):
     X = []
     y = []
     
+    #Exception handling when the length of input series is shorter than window_size
     if(len(series) <= window_size):
         X.append(series[:])
         return X, y
     
+    #Append to X the sublist of series from index i to index i + window_size (excluding)
+    #Append to y the item in series at index i + window_size
     for i in range(len(series) - window_size):
         X.append(series[i:i + window_size])
         y.append(series[i+window_size])
@@ -33,7 +36,9 @@ def window_transform_series(series,window_size):
 def build_part1_RNN(step_size, window_size):
     # TODO: build an RNN to perform regression on our time series input/output data
     model = Sequential()
+    #A LSTM layer with 5 nodes
     model.add(LSTM(5, input_shape=(window_size, 1)))
+    #a fully connected module with one unit
     model.add(Dense(1))
     
     return model
@@ -57,6 +62,9 @@ def window_transform_text(text,window_size,step_size):
     inputs = []
     outputs = []
     
+    #iterate through the input text by step_size
+    #Append to inputs the sublist of text from index i to index i + window_size (excluding)
+    #Append to outputs the item in series at index i + window_size    
     for i in range(0, len(text) - window_size, step_size):
         inputs.append(text[i:i + window_size])
         outputs.append(text[i+window_size])
